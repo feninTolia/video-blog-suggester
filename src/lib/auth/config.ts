@@ -13,6 +13,7 @@ export const auth = betterAuth({
       clientSecret: serverEnv.GITHUB_CLIENT_SECRET,
     },
   },
+  secret: serverEnv.BETTER_AUTH_SECRET,
   advanced: { database: { generateId: 'uuid' } },
   plugins: [nextCookies()],
 });
