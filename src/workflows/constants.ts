@@ -1,0 +1,1 @@
+export const RSS_FEED_URL = "https://blog.webdevsimplified.com/rss.xml";
