@@ -1,8 +1,8 @@
 {
   "crons": [
     {
-      "path": "/api/ingest",
-      "schedule": "0 */6 * * *"
+      "path": "/api/workflows/ingest-blog-articles",
+      "schedule": "0 0 * * 2"
     }
   ]
 }

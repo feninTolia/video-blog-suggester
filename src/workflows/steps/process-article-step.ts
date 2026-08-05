@@ -1,6 +1,7 @@
 import { db } from '@/db/db';
 import { chunks, content } from '@/db/schema';
 import { chunkArticles } from '@/lib/chunking/chunkArticles';
+import { embedChunks } from '@/lib/embedding/embed-chunks';
 import { load } from 'cheerio';
 import Parser from 'rss-parser';
 import { FatalError } from 'workflow';
@@ -48,6 +49,7 @@ export async function ingestArticleStep(feedItem: Parser.Item) {
   }
 
   const chunkText = chunkArticles(mainHtml);
+  const embedding = await embedChunks(chunkText);
 
   const [contentRow] = await db
     .insert(content)
@@ -71,10 +73,10 @@ export async function ingestArticleStep(feedItem: Parser.Item) {
 
   if (chunkText.length > 0) {
     await db.insert(chunks).values(
-      chunkText.map((chunk) => ({
+      chunkText.map((chunk, idx) => ({
         contentId: contentRow.id,
         startPosition: null,
-        embedding: null,
+        embedding: embedding[idx],
         text: chunk,
       })),
     );
