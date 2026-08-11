@@ -1,7 +1,7 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "86a42e17-4d20-4d7e-a7b9-2b969f44b0e9",
+  "id": "692eb8a9-d542-45bd-9df4-cf29aebd1856",
   "prevIds": [
     "396b6c6f-07ea-40e7-bcaa-74d348de4a7c"
   ],
@@ -663,7 +663,7 @@
       "table": "chunks"
     },
     {
-      "type": "vector(1536)",
+      "type": "vector(2048)",
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,

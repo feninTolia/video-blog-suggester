@@ -8,7 +8,9 @@ export const chunks = snakeCase.table('chunks', {
     .notNull()
     .references(() => content.id, { onDelete: 'cascade' }),
   startPosition: integer(),
-  embedding: vector({ dimensions: 1536 }).notNull(),
+  embedding: vector({
+    dimensions: 2048,
+  }).notNull(),
   text: text().notNull(),
   ...timestamps,
 });

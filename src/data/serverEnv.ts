@@ -8,8 +8,8 @@ export const serverEnv = createEnv({
     BETTER_AUTH_URL: z.string(),
     GITHUB_CLIENT_ID: z.string(),
     GITHUB_CLIENT_SECRET: z.string(),
-    OPENAI_API_KEY: z.string(),
-    EMBEDDING_PROVIDER: z.enum(['qwen', 'openai']),
+    OPEN_ROUTER_API_KEY: z.string(),
+    EMBEDDING_PROVIDER: z.enum(['qwen', 'openrouter']),
     LOCAL_EMBEDDING_BASE_URL: z.url().optional(),
   },
 
