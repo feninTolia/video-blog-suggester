@@ -1,8 +1,9 @@
 import { serverEnv } from '@/data/serverEnv';
-import { createOpenAI, openai } from '@ai-sdk/openai';
+import { createOpenAI } from '@ai-sdk/openai';
+import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 
 const QWEN_MODEL = 'text-embedding-qwen3-0.6b-text-embedding';
-const OPENAI_MODEL = 'text-embedding-3-small';
+const OPEN_ROUTER_MODEL = 'nvidia/nemotron-3-embed-1b:free';
 
 export async function getEmbeddingModel() {
   if (serverEnv.EMBEDDING_PROVIDER === 'qwen') {
@@ -17,6 +18,9 @@ export async function getEmbeddingModel() {
 
     return provider.embedding(QWEN_MODEL);
   } else {
-    return openai.embedding(OPENAI_MODEL);
+    const openrouter = createOpenRouter({
+      apiKey: serverEnv.OPEN_ROUTER_API_KEY,
+    });
+    return openrouter.textEmbeddingModel(OPEN_ROUTER_MODEL);
   }
 }

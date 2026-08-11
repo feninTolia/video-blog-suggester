@@ -16,7 +16,7 @@ CREATE TABLE "chunks" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	"content_id" uuid NOT NULL,
 	"start_position" integer,
-	"embedding" vector(1536) NOT NULL,
+	"embedding" vector(2048) NOT NULL,
 	"text" text NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
