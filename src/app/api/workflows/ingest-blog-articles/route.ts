@@ -1,11 +1,7 @@
-import { start } from 'workflow/api';
 import { ingestBlogArticlesWorkflow } from '@/workflows/ingest-articles';
-import { NextResponse } from 'next/server';
+import { verifyAndRunCron } from '@/workflows/utils/verifyAndRunCron';
+import { NextRequest } from 'next/server';
 
-export async function GET() {
-  const run = await start(ingestBlogArticlesWorkflow);
-  return NextResponse.json({
-    runId: run.runId,
-    message: 'Blog articles ingestion workflow started',
-  });
+export async function GET(req: NextRequest) {
+  return await verifyAndRunCron(req, ingestBlogArticlesWorkflow);
 }
