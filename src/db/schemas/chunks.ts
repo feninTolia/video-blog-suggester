@@ -1,16 +1,32 @@
-import { integer, snakeCase, text, uuid, vector } from 'drizzle-orm/pg-core';
+import {
+  index,
+  integer,
+  snakeCase,
+  text,
+  uuid,
+  vector,
+} from 'drizzle-orm/pg-core';
 import { id, timestamps } from '../utils';
 import { content } from './content';
 
-export const chunks = snakeCase.table('chunks', {
-  id,
-  contentId: uuid()
-    .notNull()
-    .references(() => content.id, { onDelete: 'cascade' }),
-  startPosition: integer(),
-  embedding: vector({
-    dimensions: 2048,
-  }).notNull(),
-  text: text().notNull(),
-  ...timestamps,
-});
+export const chunks = snakeCase.table(
+  'chunks',
+  {
+    id,
+    contentId: uuid()
+      .notNull()
+      .references(() => content.id, { onDelete: 'cascade' }),
+    startPosition: integer(),
+    embedding: vector({
+      dimensions: 2048,
+    }).notNull(),
+    text: text().notNull(),
+    ...timestamps,
+  },
+  (table) => [
+    index('chunks_embedding_idx').using(
+      'hnsw',
+      table.embedding.op('vector_cosine_ops'),
+    ),
+  ],
+);

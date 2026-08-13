@@ -11,6 +11,7 @@ export const serverEnv = createEnv({
     OPEN_ROUTER_API_KEY: z.string(),
     EMBEDDING_PROVIDER: z.enum(['qwen', 'openrouter']),
     LOCAL_EMBEDDING_BASE_URL: z.url().optional(),
+    CRON_SECRET: z.string(),
   },
 
   experimental__runtimeEnv: process.env,
