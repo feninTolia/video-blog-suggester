@@ -22,12 +22,11 @@ export async function searchContent(queryEmbedding: number[]) {
     .from(chunks)
     .where(gt(dbSimilarity, MIN_SIMILARITY))
     .innerJoin(content, eq(content.id, chunks.contentId))
-    .orderBy(content.id, desc(dbSimilarity))
-    .limit(20);
+    .orderBy(content.id, desc(dbSimilarity));
 
   const sortedResults = matchingChunks.sort(
     (a, b) => b.similarity - a.similarity,
   );
 
-  return sortedResults;
+  return sortedResults.slice(0, 20);
 }
