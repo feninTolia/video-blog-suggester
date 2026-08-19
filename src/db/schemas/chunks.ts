@@ -1,5 +1,4 @@
 import {
-  index,
   integer,
   snakeCase,
   text,
@@ -23,10 +22,4 @@ export const chunks = snakeCase.table(
     text: text().notNull(),
     ...timestamps,
   },
-  (table) => [
-    index('chunks_embedding_idx').using(
-      'hnsw',
-      table.embedding.op('vector_cosine_ops'),
-    ),
-  ],
 );

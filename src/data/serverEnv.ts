@@ -15,6 +15,8 @@ export const serverEnv = createEnv({
     EMBEDDING_PROVIDER: z.enum(['qwen', 'openrouter']),
     LOCAL_EMBEDDING_BASE_URL: z.url().optional(),
     CRON_SECRET: z.string(),
+    RATE_LIMIT_MAX_REQUESTS: z.coerce.number().int().positive(),
+    RATE_LIMIT_WINDOW_HOURS: z.coerce.number().int().positive(),
   },
 
   experimental__runtimeEnv: process.env,
