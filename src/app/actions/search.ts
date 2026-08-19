@@ -5,6 +5,9 @@ import { z } from 'zod';
 import { auth } from '@/lib/auth/config';
 import { embedQuery } from '@/lib/embedding/embed-query';
 import { searchContent } from '@/lib/search/search-content';
+import { enforceRateLimit } from '@/lib/search/rate-limit';
+import { db } from '@/db/db';
+import { searchQueries } from '@/db/schema';
 
 const querySchema = z.string().trim().min(1).max(500);
 
@@ -23,8 +26,16 @@ export async function searchContentAction(query: string) {
     throw new Error('You must be signed in to search.');
   }
 
+  await enforceRateLimit(session.user.id);
+
   const embedding = await embedQuery(parsed.data);
   const results = await searchContent(embedding);
+
+  await db.insert(searchQueries).values({
+    queryText: parsed.data,
+    userId: session.user.id,
+    resultContentIds: results.map((result) => result.id),
+  });
 
   return results.map((result) => ({
     ...result,

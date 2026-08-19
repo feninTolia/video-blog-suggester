@@ -14,4 +14,10 @@ export const relations = defineRelations(schema, (r) => ({
       to: r.content.id,
     }),
   },
+  searchQueries: {
+    user: r.one.user({
+      from: r.searchQueries.userId,
+      to: r.user.id,
+    }),
+  },
 }));

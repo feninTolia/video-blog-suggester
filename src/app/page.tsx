@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { signIn, signOut, useSession } from '@/lib/auth/auth-client';
 import { searchContentAction } from '@/app/actions/search';
+import { RATE_LIMIT_ERROR_MESSAGE } from '@/lib/search/rate-limit-errors';
 import { Header } from '@/components/header';
 import { ResultCard } from '@/components/result-card';
 import { SearchBar } from '@/components/search-bar';
@@ -36,11 +37,15 @@ export default function Home() {
       const searchResults = await searchContentAction(searchQuery);
       setResults(searchResults);
     } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : 'Something went wrong. Please try again.',
-      );
+      if (err instanceof Error && err.message === RATE_LIMIT_ERROR_MESSAGE) {
+        setError(RATE_LIMIT_ERROR_MESSAGE);
+      } else {
+        setError(
+          err instanceof Error
+            ? err.message
+            : 'Something went wrong. Please try again.',
+        );
+      }
       setResults(null);
     } finally {
       setIsSearching(false);
